@@ -27,8 +27,13 @@ const ShippingType = ref('');
     const steps = ref(['step1', 'step2', 'step3', 'step4']); // Replace with your actual steps
     // Step navigation methods
     const nextStep = ()=>{
+      event.preventDefault();
+      if(currentTab.value<3)
+      {
         currentTab.value += 1;
+      }
     }
+
     const previousStep = ()=>{
         currentTab.value -= 1;
     }
@@ -78,6 +83,39 @@ const items = [
 
         <div v-for="(step, index) in steps" :key="index" class="step" v-show="currentTab === index">
 
+          <div v-if="index === 3">
+            <ol class="flex items-center w-full mb-4 sm:mb-5">
+              <li class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
+                <div class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
+                  <svg aria-hidden="true" class="w-8 h-8 text-blue-600 lg:w-10 lg:h-10 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                  </svg>
+                  
+                </div>
+              </li>
+              <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
+                <div class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0">
+                  <svg  aria-hidden="true" class="w-8 h-8 text-blue-600 lg:w-10 lg:h-10 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path>
+                    <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path>
+                  </svg>
+                  
+                </div>
+              </li>
+              <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
+                <div class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0">
+                  <svg  aria-hidden="true" class="w-8 h-8 text-blue-600 lg:w-10 lg:h-10 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                  </svg>
+                  
+                </div>
+              </li>
+              
+            </ol>
+      
+            </div>
+            <div v-else>
         <ol class="flex items-center w-full mb-4 sm:mb-5">
             <li class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
               <div class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
@@ -115,12 +153,13 @@ const items = [
             </li>
             
           </ol>
+          </div>
           
 
 
     <!-- Step 1 -->
 <div v-if="index === 0">
-    <form action="#" >
+    <form action="#" @submit="nextStep " >
         <h3 class="mb-4 text-lg font-bold leading-none text-gray-900 dark:text-white">Personal Details</h3>
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
@@ -144,17 +183,18 @@ const items = [
                 <input v-model="UserData.Phone" type="tel" name="tel" id="tel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0XXXXXXXXX" required="">
             </div>
         </div>
+        <button   type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Next Step: <b>Shipping Info</b>
+      </button> 
     </form>
 
-    <button @click="nextStep" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Next Step: <b>Shipping Info</b>
-    </button> 
+    
    </div> 
 
 
     <!-- Step 2 -->
     <div v-if="index === 1">
-    <form action="#" >
+    <form action="#" @submit="nextStep " >
         <h3 class="mb-4 text-lg font-bold leading-none text-gray-900 dark:text-white">Shipping Info</h3>
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
@@ -195,6 +235,7 @@ const items = [
                     v-model="selectedItems"
                     :value="item"
                     class="hidden peer"
+                    
                   >
                   <label
                     :for="item.id"
@@ -209,14 +250,15 @@ const items = [
               </ul>
         </div>
         </div>
+        <button @click="previousStep" class="text-white mx-8 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Back
+      </button> 
+      <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Next: <b>Payment Info</b>
+      </button>
         
     </form>
-    <button @click="previousStep" class="text-white mx-8 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Back
-    </button> 
-    <button @click="nextStep" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Next: <b>Payment Info</b>
-    </button> 
+    
     
 
 </div>
@@ -246,6 +288,8 @@ const items = [
                 <h3 class="px-8 text-lg font-bold leading-none text-gray-900 dark:text-white">Card Payment</h3>
 
               <main class=" p-4">
+                <form @submit="nextStep ">
+
                 <div>
                   <div class="my-3">
                     <input
@@ -278,6 +322,8 @@ const items = [
                         id=""
                         class="form-select appearance-none block w-full px-5 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
                         v-model="expired.month"
+                        required=""
+
                       >
                         <option value="" disabled selected>MM</option>
                         <option value="01">01-January</option>
@@ -298,6 +344,8 @@ const items = [
                         id=""
                         class="form-select appearance-none block w-full px-5 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
                         v-model="expired.year"
+                        required=""
+
                       >
                         <option value="" disabled selected>YY</option>
                         <option value="2021">2021</option>
@@ -306,6 +354,7 @@ const items = [
                         <option value="2024">2024</option>
                         <option value="2025">2025</option>
                         <option value="2026">2026</option>
+                        
                       </select>
                       <input
                         type="tel"
@@ -317,11 +366,11 @@ const items = [
                       />
                     </div>
                   </div>
+
+
                 </div>
-              </main>
-              <footer >
-                <button
-                data-modal-target="popup-modal" data-modal-toggle="popup-modal" 
+
+                <button type="submit"
                   class="submit-button px-4 py-3 rounded-full bg-blue-300 text-blue-900 focus:ring focus:outline-none w-full text-xl font-semibold transition-colors">
                   Confirm
                 </button>
@@ -329,7 +378,11 @@ const items = [
                   class="submit-button mt-2 px-4 py-3 rounded-full bg-blue-300 text-blue-900 focus:ring focus:outline-none w-full text-xl font-semibold transition-colors">
                   Go Back
                 </button>
-                <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                </form>
+              </main>
+              <footer >
+                
+                <!-- <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div class="relative w-full max-w-md max-h-full">
                         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                             <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="popup-modal">
@@ -347,43 +400,19 @@ const items = [
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
               </footer>
               
             </div>
             
 
     </div>
-    <!-- <form action="#" v-if="index === 2">
-        <h3 class="mb-4 text-lg font-bold leading-none text-gray-900 dark:text-white">Payment Info</h3>
-        <div class="grid gap-4 mb-4 sm:grid-cols-2">
-            <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                <input v-model="Username" type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="">
-            </div>
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                <input v-model="UserEmail" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
-            </div>
-            <div>
-                <label for="gps" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GPS Address</label>
-                <input v-model="UserGPS" type="text" name="gps" id="gps" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="gps-address.example" required="">
-            </div>
-            <div>
-                <label for="address2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Postal Address </label>
-                <input v-model="UserPAddress" type="text" name="address2" id="address2" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="postal-address.example" required="">
-            </div>
-            <div>
-                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                <input v-model="UserPhone" type="tel" name="tel" id="tel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0XXXXXXXXX" required="">
-            </div>
-        </div>
-        
-    </form> -->
+    <div v-if="index === 3">
+<!-- Confirmation -->
+
+      </div>
 
    
-
-
 
 </div>
         

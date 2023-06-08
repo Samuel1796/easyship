@@ -7,7 +7,6 @@
 // Components
 import App from './App.vue'
 import './styles/main.css'
-import 'aos/dist/aos.css'
 // Composables
 import { createApp } from 'vue'
 
